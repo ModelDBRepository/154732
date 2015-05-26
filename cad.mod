@@ -36,8 +36,12 @@ TITLE decay of internal calcium concentration
 
 : Code tidied to make clear the instantaneous buffer capacity (BPG 21-6-11)
 
-
-INDEPENDENT {t FROM 0 TO 1 WITH 1 (ms)}
+: 20150524 NTC
+: Changed integration method from euler to derivimplicit
+: which is appropriate for simple ion accumulation mechanisms.
+: See
+: Integration methods for SOLVE statements
+: http://www.neuron.yale.edu/phpBB/viewtopic.php?f=28&t=592
 
 NEURON {
 	SUFFIX cad
@@ -79,7 +83,8 @@ ASSIGNED {
 }
 	
 BREAKPOINT {
-	SOLVE state METHOD euler
+        SOLVE state METHOD derivimplicit : not euler
+    : see http://www.neuron.yale.edu/phpBB/viewtopic.php?f=28&t=592
 }
 
 DERIVATIVE state { 
@@ -91,6 +96,12 @@ DERIVATIVE state {
         ca' = drive_channel/(1+bcap) + (cainf-ca)/taur
 	cai = ca
 }
+
+
+
+
+
+
 
 
 
